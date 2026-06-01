@@ -29,7 +29,7 @@ npm run dev
 
 To run this, make sure you have installed [Node.js](https://nodejs.org/).
 
-To get a `YOUR_PACKAGE_REPOSITORY_TOKEN`, please contact [Squire](https://squire.eu/).
+To get a `YOUR_PACKAGE_REPOSITORY_TOKEN`, log in to the [Squire Portal](https://acc.squire.eu/) and find it under your account settings.
 
 ### 2. Requesting an API key
 
@@ -48,8 +48,11 @@ An access token is required to authenticate your requests to the Squire API. You
 curl -X POST "https://api-acc.squire.eu/api/v1/token/" \
   -H "X-Api-Key: <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
-  -d '{"user_id": "example1234", "first_name": "doctor", "last_name": "123", "organisation": "practice_name"}'
+  -d '{"user_id": "example1234", "first_name": "doctor", "last_name": "123", "organisation_id": "<YOUR_ORGANISATION_ID>"}'
 ```
+
+> [!NOTE]
+> `organisation_id` is your **data scope** — it identifies the practice or hospital department whose intake data you want to access. All users sharing the same `organisation_id` see the same intake configurations and session data. You can find your organisation's ID in the [Squire Portal](https://acc.squire.eu/).
 
 Once you have the access token, paste it into the demo UI to initialize the SDK.
 
@@ -71,11 +74,20 @@ const squire = new Squire({
 
 ### 1. Schedule — Create Intake Sessions
 
-Use the SDK's intake service to create a session and generate a link for the patient:
+Use the SDK's intake service to create a session and generate a link for the patient.
+
+First, fetch the available intake configurations to get the `intakeConfigId`:
+
+```js
+const configs = await squire.intake.getIntakeConfigs();
+// configs: [{ id: 'uuid', name: 'General intake' }, ...]
+```
+
+Then create a session using the desired config's `id`:
 
 ```js
 const session = await squire.intake.createSession({
-  intakeConfigId: 'config-uuid-from-settings-widget',
+  intakeConfigId: configs[0].id,
   appointmentDt: new Date('2026-06-15T10:00:00'),
   firstName: 'Jan',
   lastName: 'de Vries',
