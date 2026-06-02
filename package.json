@@ -16,7 +16,7 @@
   "author": "Squire Health (https://squire.eu/)",
   "license": "ISC",
   "dependencies": {
-    "@squirehealth/sdk": "^1.6.2",
+    "@squirehealth/sdk": "^1.13.1",
     "http-server": "^14.1.1"
   }
 }
