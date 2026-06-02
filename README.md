@@ -48,7 +48,7 @@ An access token is required to authenticate your requests to the Squire API. You
 curl -X POST "https://api-acc.squire.eu/api/v1/token/" \
   -H "X-Api-Key: <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
-  -d '{"user_id": "example1234", "first_name": "doctor", "last_name": "123", "organisation_id": "<YOUR_ORGANISATION_ID>"}'
+  -d '{"user_id": "example1234", "first_name": "doctor", "last_name": "123", "organisation_id": "<YOUR_ORGANISATION_ID>", "organisation": "<YOUR_ORGANISATION_NAME>"}'
 ```
 
 > [!NOTE]
